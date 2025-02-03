@@ -1,0 +1,33 @@
+.wordSpace {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+
+    input {
+        width: 76px;
+        height: 76px;
+        text-align: center;
+        background-color: rgb(97, 84, 88);
+        border-radius: 10%;
+        font-size: 49px;
+        text-transform: capitalize;
+        color: white;
+        caret-color: transparent;
+
+        &:focus {
+            outline: none;
+        }
+
+
+    }
+
+}
+
+.selectedRow {
+    
+    input {
+        border: 6px solid rgb(76,67,71);
+        background-color: #6E5C62;
+
+    }
+}
