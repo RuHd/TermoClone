@@ -2,23 +2,24 @@
 
 import { Word } from '@andsfonseca/palavras-pt-br'
 import { useEffect, useState } from "react";
-import WordSpace from "./components/WordSpace/WordSpace";
+import WordsGroup from './components/WordsGroup/WordsGroup';
 
 
 export default function Home() {
-  const [wordData, setwordData] = useState(null)
   const [currentRow, setcurrentRow] = useState(1)
   const [writtenWord, setwrittenWord] = useState("")
   const [chosenWord, setchosenWord] = useState("")
-
-  
+ 
   useEffect(() => {
-
       const wordLists = Word.getAllWords({limit : 5}, {removeAccents: true})
-      setwordData(wordLists)
+      setchosenWord(wordLists[Math.floor(Math.random() * wordLists.length)].toUpperCase())
+
+      console.log(chosenWord)
 
       window.addEventListener("keydown", (e) => {
-        console.log(e.key == "Enter" ? "Enter Pressed" : null)
+        if(writtenWord.length === 5 && e.key == "Enter") {
+          console.log(writtenWord)
+        }
       })
 
       return (
@@ -26,20 +27,13 @@ export default function Home() {
       )
   }, [])
 
- 
+  
   
   return (
-    <div className="page" onKeyDown={(e) => pressedEnter(e)}>
+    <div className="page">
       <h1>TERMO</h1>
 
-      <ul className="wordsGroup">
-          <WordSpace rowIndex = {1} currentRow = {currentRow}/>
-          <WordSpace rowIndex = {2} currentRow = {currentRow}/>
-          <WordSpace rowIndex = {3} currentRow = {currentRow}/>
-          <WordSpace rowIndex = {4} currentRow = {currentRow}/>
-          <WordSpace rowIndex = {5} currentRow = {currentRow}/>
-          <WordSpace rowIndex = {6} currentRow = {currentRow}/>
-      </ul>
+      <WordsGroup currentRow={currentRow} setWrittenWord = {setwrittenWord}/>
     </div>
   );
 }
