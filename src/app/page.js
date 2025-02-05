@@ -12,14 +12,16 @@ export default function Home() {
  
   useEffect(() => {
       const wordLists = Word.getAllWords({limit : 5}, {removeAccents: true})
-      setchosenWord(wordLists[Math.floor(Math.random() * wordLists.length)].toUpperCase())
-
-      console.log(chosenWord)
+      setchosenWord(wordLists[Math.floor(Math.random() * wordLists.length)])
 
       window.addEventListener("keydown", (e) => {
-        if(writtenWord.length === 5 && e.key == "Enter") {
-          console.log(writtenWord)
-        }
+        
+        if(e.key !== "Enter") return
+        if(e.key == "Enter") {
+          debugger
+          console.log(writtenWord, wordLists[0] == writtenWord)
+          
+        } 
       })
 
       return (
@@ -27,13 +29,13 @@ export default function Home() {
       )
   }, [])
 
-  
-  
+  console.log(writtenWord)
+
   return (
     <div className="page">
       <h1>TERMO</h1>
 
-      <WordsGroup currentRow={currentRow} setWrittenWord = {setwrittenWord}/>
+      <WordsGroup currentRow={currentRow} setWrittenWord = {setwrittenWord} writtenWord = {writtenWord}/>
     </div>
   );
 }

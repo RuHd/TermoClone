@@ -31,3 +31,9 @@
 
     }
 }
+
+.nonSelectedRow {
+    &>* {
+        pointer-events: none;
+    }
+}
