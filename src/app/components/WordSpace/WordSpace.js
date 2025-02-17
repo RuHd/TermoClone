@@ -13,19 +13,14 @@ const WordSpace = ({ rowIndex, currentRow, setcurrentRow, setWrittenWord, writte
   const [checkedRow, setcheckedRow] = useState(false)
   const [fieldStyle, setfieldStyle] = useState([])
 
-  const removeChar = (e, prevInputRef) => {
+  const removeChar = (e, prevInputRef, index) => {
 
     if (e.key !== "Backspace") return
 
     if (e.key == "Backspace") {
-      let newW = writtenWord.split("")
+      
+      setWrittenWord(writtenWord.map((letter,i) => i !== index ? letter : ""))
 
-      e.stopPropagation()
-
-      newW.pop()
-      newW = newW.join("")
-
-      setWrittenWord(newW)
       e.target.value = ""
       if (prevInputRef.current !== null) prevInputRef.current.focus()
 
@@ -36,28 +31,34 @@ const WordSpace = ({ rowIndex, currentRow, setcurrentRow, setWrittenWord, writte
   // Check if the row is the active one
 
   useEffect(() => {
-    debugger
-    if(currentRow !== rowIndex) return
-    if(styleSequence.length == 5) {
+    if (currentRow !== rowIndex) return
+    if (styleSequence.length == 5) {
       setfieldStyle(styleSequence)
-      setcurrentRow(prev => prev + 1)
+      if(styleSequence.filter(value => value == "rightLetterPlace").length == 5) {
+        alert("You have won!")
+        return
+      } else if(currentRow + 1 > 6) {
+        alert("you have lost")
+        return
+      }
+      setcurrentRow(prev => prev + 1 )
 
     }
-   
+
   }, [styleSequence])
 
-  const handleInputRef = (e, nextInput = null) => {
-    
+  const handleInputRef = (e, nextInput = null, index) => {
+
     const { value, maxLength } = e.target
-    if(e.key !== "Enter") {
+    if (e.key !== "Enter") {
       
-          if (value.length === maxLength) {
-            setWrittenWord(prev => prev + value)
-      
-            if (nextInput == null) {
-              e.target.focus()
-            } else nextInput.current.focus()
-          }
+      if (value.length === maxLength) {
+        setWrittenWord(prev => prev.map((letter,i) => i == index ? value : letter))
+
+        if (nextInput == null) {
+          e.target.focus()
+        } else nextInput.current.focus()
+      }
 
     }
 
@@ -66,11 +67,21 @@ const WordSpace = ({ rowIndex, currentRow, setcurrentRow, setWrittenWord, writte
 
   return (
     <div className={`wordSpace ${currentRow == rowIndex ? "selectedRow" : "nonSelectedRow"}`} ref={rowRef}>
-      <input maxLength={1} onChange={(e) => handleInputRef(e, input2Ref, null)} ref={input1Ref} onKeyDown={(e) => removeChar(e, null)} autoFocus={currentRow == rowIndex} className={`${fieldStyle.length==5 && fieldStyle[0]}`}/>
-      <input maxLength={1} onChange={(e) => handleInputRef(e, input3Ref, null)} ref={input2Ref} onKeyDown={(e) => removeChar(e, input1Ref)} className={`${fieldStyle.length==5 && fieldStyle[1]}`}/>
-      <input maxLength={1} onChange={(e) => handleInputRef(e, input4Ref, null)} ref={input3Ref} onKeyDown={(e) => removeChar(e, input2Ref)} className={`${fieldStyle.length==5 && fieldStyle[2]}`}/>
-      <input maxLength={1} onChange={(e) => handleInputRef(e, input5Ref, null)} ref={input4Ref} onKeyDown={(e) => removeChar(e, input3Ref)} className={`${fieldStyle.length==5 && fieldStyle[3]}`}/>
-      <input maxLength={1} onChange={(e) => handleInputRef(e, null, null)} ref={input5Ref} onKeyDown={(e) => removeChar(e, input4Ref, input5Ref)} className={`${fieldStyle.length==5 && fieldStyle[4]}`}/>
+      <input 
+        maxLength={1} onChange={(e) => handleInputRef(e, input2Ref, 0)} ref={input1Ref} onKeyDown={(e) => removeChar(e, null, 0)} 
+        autoFocus={currentRow == rowIndex} className={`${fieldStyle.length == 5 && fieldStyle[0]}`} />
+
+      <input 
+        maxLength={1} onChange={(e) => handleInputRef(e, input3Ref, 1)} ref={input2Ref} onKeyDown={(e) => removeChar(e, input1Ref, 1)} className={`${fieldStyle.length == 5 && fieldStyle[1]}`} />
+
+      <input 
+        maxLength={1} onChange={(e) => handleInputRef(e, input4Ref, 2)} ref={input3Ref} onKeyDown={(e) => removeChar(e, input2Ref, 2)} className={`${fieldStyle.length == 5 && fieldStyle[2]}`} />
+
+      <input 
+        maxLength={1} onChange={(e) => handleInputRef(e, input5Ref, 3)} ref={input4Ref} onKeyDown={(e) => removeChar(e, input3Ref, 3)} className={`${fieldStyle.length == 5 && fieldStyle[3]}`} />
+
+      <input 
+        maxLength={1} onChange={(e) => handleInputRef(e, null, 4)} ref={input5Ref} onKeyDown={(e) => removeChar(e, input4Ref, 4)} className={`${fieldStyle.length == 5 && fieldStyle[4]}`} />
     </div>
   )
 }
