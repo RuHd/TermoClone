@@ -1,0 +1,34 @@
+.lettersLog {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    width: 50%;
+    padding: 15px;
+    transform: translateX(-50%);
+    color: white;
+
+    h3 {
+        text-align: center;
+        font-size: 2em;
+    }
+}
+
+
+.letters--list { 
+    display: grid;   
+    grid-template-columns: repeat(10, auto);
+    grid-template-rows: repeat(3, auto);
+    align-content: center;
+    justify-content: center;
+    gap: 10px;   
+
+    li {
+        text-align: center;
+        min-width: 50px;
+        display: inline-block;
+        background-color: rgb(37, 37, 37);
+        font-size: 1.8em;
+        text-transform: capitalize;
+        
+    }
+}

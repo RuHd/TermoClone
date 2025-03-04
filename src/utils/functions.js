@@ -19,7 +19,6 @@ function checkLetterPosition (writtenWord, chosenWord) {
    let styleSequence = []
 
    for (let i = 0; i<writtenWord.length; i++) {
-        debugger
         let letter = writtenWord[i]
 
         if(chosenWord.includes(letter)) {
@@ -31,13 +30,6 @@ function checkLetterPosition (writtenWord, chosenWord) {
         } else {
             styleSequence.push("wrongLetter")
         }
-    //    if(writtenWord.includes(letter)) repeatedLetterPos.push(writtenWord.indexOf(letter))
-
-    //     if (!chosenWord.includes(letter)) {
-    //         styleSequence.push("wrongLetter")
-    //     } else {
-    //         styleSequence.push(chosenWord.indexOf(letter) == i ? "rightLetterPlace" : "wrongLetterPlace")
-    //     }
    }
 
    return styleSequence
